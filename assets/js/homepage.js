@@ -1,13 +1,32 @@
-var getUserRepos = function(user) {
+//Global Variables
+var userFormEl = document.querySelector("#user-form");
+var nameInputEl = document.querySelector("#username");
+
+var getUserRepos = function(username) {
   // format the github api url
   var apiUrl = "https://api.github.com/users/" + user + "/repos";
 
   // make a request to the url
-  fetch(apiUrl).then(function(response) {
-    response.json().then(function(data) {
+  fetch(apiUrl).then(function (response) {
+    response.json().then(function (data) {
       console.log(data);
     });
   });
 };
 
-getUserRepos("facebook");
+//capture form submission
+var formSubmitHandler = function (event) {
+  event.preventDefault();
+  // get value from input element
+  var username = nameInputEl.value.trim();
+  if (username) {
+    getUserRepos(username);
+    nameInputEl.value = "";
+  } else {
+    alert("Please enter a GitHub username");
+  }
+  console.log(event);
+};
+
+//add event listener to userFormEL
+userFormEl.addEventListener("submit", formSubmitHandler);
